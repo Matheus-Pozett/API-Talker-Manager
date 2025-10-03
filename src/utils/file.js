@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -31,4 +32,28 @@ const writeTalker = async (talker) => {
   }
 };
 
-module.exports = { readTalkers, writeTalker };
+const updateTalker = async (id, updatedData) => {
+  try {
+    const allTalkers = await readTalkers();
+    const talkerIndex = allTalkers.findIndex((t) => t.id === Number(id));
+    
+    if (talkerIndex === -1) {
+      return null;
+    }
+    
+    const updatedTalker = { id: Number(id), ...updatedData };
+    allTalkers[talkerIndex] = updatedTalker;
+    
+    await fs.writeFile(
+      path.resolve(__dirname, TALKERS_JSON_PATH), 
+      JSON.stringify(allTalkers, null, 2),
+    );
+    
+    return updatedTalker;
+  } catch (error) {
+    console.error(`Erro ao atualizar o arquivo: ${error.message}`);
+    throw error;
+  }
+};
+
+module.exports = { readTalkers, writeTalker, updateTalker };
