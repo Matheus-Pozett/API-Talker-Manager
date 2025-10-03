@@ -1,4 +1,4 @@
-const validadeEmail = (req, res, next) => {
+const validateEmail = (req, res, next) => {
   const { email } = req.body;
   const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -13,7 +13,7 @@ const validadeEmail = (req, res, next) => {
   next();
 };
 
-const validadePassword = (req, res, next) => {
+const validatePassword = (req, res, next) => {
   const { password } = req.body;
 
   if (!password) {
@@ -28,4 +28,4 @@ const validadePassword = (req, res, next) => {
   next();
 };
 
-module.exports = { validadeEmail, validadePassword };
+module.exports = { validateEmail, validatePassword };

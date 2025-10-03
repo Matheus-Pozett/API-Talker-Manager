@@ -1,5 +1,7 @@
 const { Router } = require('express');
-const readTalkers = require('../utils/file');
+const { readTalkers, writeTalker } = require('../utils/file');
+const { validateToken, 
+  validateAge, validateName, validateTalk } = require('../middlewares/talker');
 
 const router = Router();
 
@@ -22,5 +24,16 @@ router.get('/:id', async (req, res) => {
 
   res.status(200).json(findTalker);
 });
+
+router.post('/', 
+  validateToken,
+  validateAge,
+  validateName,
+  validateTalk,
+  async (req, res) => {
+    const talker = req.body;
+    const result = await writeTalker(talker);
+    res.status(201).json(result);
+  });
 
 module.exports = router;

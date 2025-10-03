@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const crypto = require('crypto');
-const { validadeEmail, validadePassword } = require('../middlewares/login');
+const { validateEmail, validatePassword } = require('../middlewares/login');
 
 const router = Router();
 
@@ -11,7 +11,7 @@ const generateToken = () => {
   return token;
 };
 
-router.post('/', validadeEmail, validadePassword, (req, res) => {
+router.post('/', validateEmail, validatePassword, (req, res) => {
   const token = generateToken();
   res.status(200).json({ token });
 });
