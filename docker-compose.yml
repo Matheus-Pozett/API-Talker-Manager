@@ -22,16 +22,16 @@ services:
     # na notação porta_de_fora:porta_de_dentro
     ports:
       # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
-      - 3001:3001
+      - "${PORT:-3001}:3001"
       - 9229:9229
     # Variáveis de ambiente para comunicação com o banco de dados (requisito 12)
     environment:
-      PORT: 3001
+      PORT: ${PORT:-3001}
       MYSQL_HOSTNAME: db
-      MYSQL_PORT: 3306
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: TalkerDB
+      MYSQL_PORT: ${MYSQL_PORT:-3306}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-TalkerDB}
 
   db:
     container_name: talker_manager_db
@@ -39,9 +39,9 @@ services:
     restart: always
     ports:
       # Expõe a porta padrão do banco de dados
-      - 3306:3306
+      - "${MYSQL_PORT:-3306}:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-password}
       MYSQL_DATABASE: TalkerDB
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
