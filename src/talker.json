@@ -34,14 +34,5 @@
       "watchedAt": "30/10/2020",
       "rate": 5
     }
-  },
-  {
-    "name": "Henrique dos Santos",
-    "age": 44,
-    "id": 5,
-    "talk": {
-      "watchedAt": "29/10/2020",
-      "rate": 5
-    }
   }
 ]

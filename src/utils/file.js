@@ -56,4 +56,17 @@ const updateTalker = async (id, updatedData) => {
   }
 };
 
-module.exports = { readTalkers, writeTalker, updateTalker };
+const deleteTalker = async (id) => {
+  const talkers = await readTalkers();
+
+  const deleted = talkers.filter((t) => t.id !== id);
+
+  if (deleted.length === talkers.length) {
+    return false;
+  }
+
+  await fs.writeFile(path.resolve(__dirname, TALKERS_JSON_PATH), JSON.stringify(deleted, null, 2));
+  return true;
+};
+
+module.exports = { readTalkers, writeTalker, updateTalker, deleteTalker };

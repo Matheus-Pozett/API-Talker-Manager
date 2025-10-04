@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { readTalkers, writeTalker, updateTalker } = require('../utils/file');
+const { readTalkers, writeTalker, updateTalker, deleteTalker } = require('../utils/file');
 const { validateToken, 
   validateAge, validateName, validateTalk } = require('../middlewares/talker');
 
@@ -56,5 +56,17 @@ router.put('/:id',
 
     res.status(200).json(result);
   });
+
+router.delete('/:id', validateToken, async (req, res) => {
+  const id = Number(req.params.id);
+
+  const result = await deleteTalker(id);
+
+  if (!result) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+
+  return res.status(204).end();
+});
 
 module.exports = router;
