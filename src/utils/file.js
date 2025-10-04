@@ -69,4 +69,12 @@ const deleteTalker = async (id) => {
   return true;
 };
 
-module.exports = { readTalkers, writeTalker, updateTalker, deleteTalker };
+const findByQuery = async (q) => {
+  const talkers = await readTalkers();
+
+  const filtered = talkers.filter((t) => t.name.toLowerCase().includes(q.toLowerCase()));
+  
+  return filtered;
+};
+
+module.exports = { readTalkers, writeTalker, updateTalker, deleteTalker, findByQuery };

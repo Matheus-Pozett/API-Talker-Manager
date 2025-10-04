@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { readTalkers, writeTalker, updateTalker, deleteTalker } = require('../utils/file');
+const { readTalkers, writeTalker, updateTalker, deleteTalker, 
+  findByQuery } = require('../utils/file');
 const { validateToken, 
   validateAge, validateName, validateTalk } = require('../middlewares/talker');
 
@@ -8,6 +9,18 @@ const router = Router();
 router.get('/', async (req, res) => {
   const talkers = await readTalkers();
   res.status(200).json(talkers);
+});
+
+router.get('/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+  const talkers = await readTalkers();
+
+  if (!q) {
+    return res.status(200).json(talkers);
+  }
+  const result = await findByQuery(q);
+
+  return res.status(200).json(result);
 });
 
 router.get('/:id', async (req, res) => {
